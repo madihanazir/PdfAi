@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+PyMuPDF
+sqlalchemy
+langchain
+llama-index
+openai  
+psycopg2-binary  
+python-dotenv  

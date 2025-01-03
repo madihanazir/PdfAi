@@ -1,0 +1,117 @@
+# Node.js
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.sqlite3
+*.db
+*.pkl
+*.cache
+*.pyc
+venv/
+env/
+*.env
+
+# Django/Flask
+*.sqlite3
+migrations/
+
+# IDEs and Text Editors
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Chroma DB storage
+chroma_storage/
+
+# Node.js dependencies
+node_modules/
+dist/
+.vite/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS or editor-specific files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build output
+/build/
+out/
+
+# Temporary files
+*.log
+*.tmp
+
+# Coverage files
+coverage/
+
+# FastAPI virtual environment (if applicable)
+venv/
+__pycache__/
+
+# Backend SQLite DB files
+*.sqlite3
+*.db
+
+# Python-related files
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+
+# IDE configuration files
+*.iml
+
+# Other files you want to exclude
+/uploads/  # If you have an uploads folder for temporary PDF storage
