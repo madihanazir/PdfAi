@@ -6,10 +6,11 @@ app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Adjust this to restrict origins if needed
+    allow_origins=["http://localhost:5173"]
+
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 # Include routers from different files
 app.include_router(documents.router, prefix="/documents", tags=["documents"])
