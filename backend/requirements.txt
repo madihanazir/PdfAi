@@ -3,7 +3,7 @@ uvicorn
 PyMuPDF
 sqlalchemy
 langchain==0.3.4
-langchain-core==0.3.10
+langchain-core==0.3.13
 langchain-community==0.3.4
 langchain-chroma==0.1.4
 langchain-openai==0.3.0
