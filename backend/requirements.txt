@@ -3,13 +3,13 @@ uvicorn
 PyMuPDF
 sqlalchemy
 langchain==0.3.3
-langchain-core==0.3.9
+langchain-core==0.3.10
 langchain-community==0.3.3
 langchain-openai==0.3.0
 langchain-chroma==0.1.4
+chromadb==0.5.13
 langchain-google-genai
 llama-index
-chromadb==0.5.13
 pypdf
 openai
 psycopg2-binary
