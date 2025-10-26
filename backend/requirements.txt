@@ -3,7 +3,9 @@ uvicorn
 PyMuPDF
 sqlalchemy
 langchain
+langchain-google-genai
 llama-index
+chromadb
 openai  
 psycopg2-binary  
 python-dotenv  
