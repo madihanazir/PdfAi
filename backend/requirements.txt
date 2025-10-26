@@ -9,9 +9,10 @@ psycopg2-binary==2.9.9
 pypdf==4.2.0
 PyMuPDF==1.24.10
 
-# ---- LangChain Ecosystem ----
-langchain==0.3.2
-langchain-chroma==0.1.2
+# ---- LangChain Modular (New) ----
+langchain-core==0.3.8
+langchain-community==0.3.2
+langchain-chroma==0.1.1
 langchain-google-genai==1.0.6
 chromadb==0.5.5
 llama-index==0.11.21
