@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from app.routers import documents, questions
 from fastapi.middleware.cors import CORSMiddleware
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 app = FastAPI()
 # Add CORS middleware
