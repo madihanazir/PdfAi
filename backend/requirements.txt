@@ -3,6 +3,7 @@ uvicorn
 PyMuPDF
 sqlalchemy
 langchain
+langchain-chroma
 langchain-google-genai
 llama-index
 chromadb
