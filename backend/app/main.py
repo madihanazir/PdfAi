@@ -22,4 +22,4 @@ app.include_router(questions.router, prefix="/questions", tags=["questions"])
 # A simple root endpoint to verify server is running
 @app.get("/")
 def read_root():
-    return {"message": "Hello from amaan"}
+    return {"message": "Hello from Madiha"}
