@@ -9,7 +9,10 @@ function AskQuestion({ documentId }) {
         if (!question.trim()) return;
 
         try {
-            const res = await axios.post("http://127.0.0.1:8000/questions/ask", {
+            const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+            const res = await axios.post(`${API_BASE_URL}/questions/ask`, {
+
                 document_id: documentId,
                 question,
             });
