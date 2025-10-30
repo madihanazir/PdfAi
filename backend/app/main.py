@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from app.routers import documents, questions
 from fastapi.middleware.cors import CORSMiddleware
+from app.database import connection
+from app.database import models  
 import logging
+models.Base.metadata.create_all(bind=connection.engine)
+
 
 logging.basicConfig(level=logging.DEBUG)
 
