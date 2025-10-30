@@ -6,6 +6,15 @@ from langchain_core.prompts import PromptTemplate
 from app.config import GEMINI_API_KEY
 import os
 import shutil
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY not found. Please set it in .env or Render environment.")
+
 
 def build_vectorstore_from_text(document_text: str, persist_dir: str = "./chroma_storage"):
     """
