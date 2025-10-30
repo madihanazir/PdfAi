@@ -1,7 +1,12 @@
 from fastapi import FastAPI
 from app.routers import documents, questions
 from fastapi.middleware.cors import CORSMiddleware
+from app.database import connection
+from app.database import models  
 import logging
+from app.routers import documents
+models.Base.metadata.create_all(bind=connection.engine)
+
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -11,8 +16,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://pdf-ai-nu.vercel.app",     # your deployed frontend
-        "http://localhost:5173",            # your local dev frontend
+        "*",            # your local dev frontend
     ],
     allow_credentials=True,
     allow_methods=["*"],

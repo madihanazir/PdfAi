@@ -1,5 +1,10 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # This will populate os.environ with variables from .env
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") 
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+CHROMA_DIR = os.getenv("CHROMA_DIR", "./chroma_storage")
+
+if not GEMINI_API_KEY:
+    print("⚠️ Warning: GEMINI_API_KEY not found. The app will use local embeddings only.")

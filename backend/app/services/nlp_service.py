@@ -1,46 +1,39 @@
-from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.prompts import PromptTemplate
-from app.config import GEMINI_API_KEY
+import chromadb
 import os
 import shutil
 
+# You can keep .env loading if needed
+from dotenv import load_dotenv
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 def build_vectorstore_from_text(document_text: str, persist_dir: str = "./chroma_storage"):
-    """
-    Build the Chroma vectorstore with embeddings.
-    """
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = splitter.split_text(document_text)
 
-    embed_model = GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",
-        google_api_key=GEMINI_API_KEY
-    )
+    # ✅ Free open-source embedding model
+    embed_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     vectorstore = Chroma.from_texts(chunks, embed_model, persist_directory=persist_dir)
     vectorstore.persist()
     return vectorstore
 
+
 def get_retrieval_qa_chain(persist_dir: str = "./chroma_storage"):
-    """
-    Load Chroma with the embedding function for query retrieval.
-    """
-    embed_model = GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",
-        google_api_key=GEMINI_API_KEY
-    )
+    embed_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-    vectorstore = Chroma(
-        embedding_function=embed_model,  # Pass the embedding function here
-        persist_directory=persist_dir
-    )
-
+    vectorstore = Chroma(embedding_function=embed_model, persist_directory=persist_dir)
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
+    # ✅ Keep Gemini free model for Q&A (this still works on free tier)
     llm = ChatGoogleGenerativeAI(
-        model="gemini-1.5-pro",
+        model="gemini-1.5-flash",
         google_api_key=GEMINI_API_KEY,
         temperature=0.2
     )
@@ -50,6 +43,7 @@ If you don't know, just say 'I don't know'.
 {context}
 Question: {question}
 Answer:"""
+
     prompt = PromptTemplate.from_template(template)
 
     qa_chain = RetrievalQA.from_chain_type(
@@ -58,21 +52,28 @@ Answer:"""
         return_source_documents=True,
         chain_type_kwargs={"prompt": prompt},
     )
+
     return qa_chain
 
+
 def answer_question(question: str) -> str:
-    """
-    Retrieve relevant chunks and get an answer using the retrieval chain.
-    """
     chain = get_retrieval_qa_chain("./chroma_storage")
     result = chain({"query": question})
     return result["result"]
 
-def embed_pdf_text_into_chroma(document_text: str) -> None:
-    """
-    Build and persist the Chroma vector store for the provided document text.
-    """
-    if os.path.exists("./chroma_storage"):
-        shutil.rmtree("./chroma_storage")  # Clear existing data
 
-    build_vectorstore_from_text(document_text, persist_dir="./chroma_storage")
+def embed_pdf_text_into_chroma(document_text: str) -> None:
+    persist_dir = "./chroma_storage"
+
+    try:
+        if os.path.exists(persist_dir):
+            client = chromadb.PersistentClient(path=persist_dir)
+            client.reset()
+    except Exception as e:
+        print(f"⚠️ Warning while resetting Chroma: {e}")
+        try:
+            shutil.rmtree(persist_dir, ignore_errors=True)
+        except Exception as inner_e:
+            print(f"⚠️ Could not remove Chroma storage manually: {inner_e}")
+
+    build_vectorstore_from_text(document_text, persist_dir=persist_dir)
