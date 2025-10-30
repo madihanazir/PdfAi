@@ -13,7 +13,7 @@ function UploadPDF({ onFileUpload }) {
             try {
                const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
                 console.log("Using API:", API_BASE_URL);
-                const res = await axios.post(`${API_BASE_URL}/documents/upload`, formData);
+                const res = await axios.post(`${API_BASE_URL}/documents/upload/`, formData);
 
                 setMessage("File uploaded successfully!");
                 onFileUpload(res.data.document_id, file.name);
