@@ -5,21 +5,24 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-
 app = FastAPI()
-# Add CORS middleware
+
+# Add CORS middleware with full URLs
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["pdf-ai-nu.vercel.app"],
+    allow_origins=[
+        "https://pdf-ai-nu.vercel.app",     # your deployed frontend
+        "http://localhost:5173",            # your local dev frontend
+    ],
     allow_credentials=True,
-    allow_methods=["*"],  
-    allow_headers=["*"],  
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
-# Include routers from different files
+
+# Routers
 app.include_router(documents.router, prefix="/documents", tags=["documents"])
 app.include_router(questions.router, prefix="/questions", tags=["questions"])
 
-# A simple root endpoint to verify server is running
 @app.get("/")
 def read_root():
     return {"message": "Hello from Madiha"}
