@@ -7,6 +7,15 @@ from langchain_core.prompts import PromptTemplate
 import chromadb
 import os
 import shutil
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY not found. Please set it in .env or Render environment.")
+
 
 # You can keep .env loading if needed
 from dotenv import load_dotenv
