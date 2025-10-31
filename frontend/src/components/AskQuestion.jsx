@@ -10,6 +10,11 @@ function AskQuestion({ documentId }) {
 
         try {
             const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+                    console.log("Sending:", {
+                    document_id: documentId,
+                    question,
+                });
+
 
             const res = await axios.post(`${API_BASE_URL}/questions/ask`, {
 

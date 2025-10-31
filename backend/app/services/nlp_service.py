@@ -10,17 +10,12 @@ import shutil
 from dotenv import load_dotenv
 
 load_dotenv()
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY not found. Please set it in .env or Render environment.")
+if not GOOGLE_API_KEY:
+    raise ValueError("GOOGLE_API_KEY not found. Please set it in .env or Render environment.")
 
 
-# You can keep .env loading if needed
-from dotenv import load_dotenv
-load_dotenv()
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 def build_vectorstore_from_text(document_text: str, persist_dir: str = "./chroma_storage"):
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
@@ -41,7 +36,7 @@ def get_retrieval_qa_chain(persist_dir: str = "./chroma_storage"):
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
     # ✅ Keep Gemini free model for Q&A (this still works on free tier)
-    llm =  ChatGoogleGenerativeAI(model="models/gemini-1.5-flash", temperature=0.3)
+    llm =  ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3, google_api_key=os.getenv("GOOGLE_API_KEY"))
 
     template = """Use the following context to answer the question at the end.
 If you don't know, just say 'I don't know'.
