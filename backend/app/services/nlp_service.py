@@ -41,11 +41,7 @@ def get_retrieval_qa_chain(persist_dir: str = "./chroma_storage"):
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
 
     # ✅ Keep Gemini free model for Q&A (this still works on free tier)
-    llm = ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
-        google_api_key=GEMINI_API_KEY,
-        temperature=0.2
-    )
+    llm =  ChatGoogleGenerativeAI(model="models/gemini-1.5-flash", temperature=0.3)
 
     template = """Use the following context to answer the question at the end.
 If you don't know, just say 'I don't know'.
